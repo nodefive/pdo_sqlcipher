@@ -180,7 +180,7 @@ function getSyncSettings() {
             'server' => '',
             'port' => '22',
             'user' => '',
-            'remote_dir' => './syncdb',
+            'remote_dir' => '',
             'password' => ''
         ];
     }
