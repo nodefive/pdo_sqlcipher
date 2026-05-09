@@ -1,0 +1,73 @@
+# =============================================================================
+#  pdo_sqlcipher — sanity-build test image
+#
+#  Build for a specific PHP version:
+#    docker build --build-arg PHP_VER=8.4 -f Dockerfile.test -t pdo_sqlcipher_test:8.4 .
+#
+#  Run the build:
+#    docker run --rm pdo_sqlcipher_test:8.4
+# =============================================================================
+ARG PHP_VER=8.4
+
+FROM ubuntu:24.04
+
+ARG PHP_VER
+# CACHEBUST is set to today's date by the test script (YYYYMMDD).
+# It invalidates the apt-get update layer daily so stale package URLs
+# (404s from the Ubuntu mirrors) never block a build.
+ARG CACHEBUST=1
+
+ENV DEBIAN_FRONTEND=noninteractive \
+    TZ=UTC \
+    CI=1 \
+    BUILD_TYPE=1 \
+    TARGET_VERSION=${PHP_VER}
+
+# Add the ondrej/php PPA manually — avoids software-properties-common which
+# pulls in the full systemd/libkmod2 stack and is prone to 404s when the
+# Ubuntu security mirror hasn't fully propagated a new package version.
+RUN echo "Cache bust: ${CACHEBUST}" && \
+    apt-get update && \
+    apt-get install -y --no-install-recommends curl gpg ca-certificates && \
+    curl -fsSL "https://keyserver.ubuntu.com/pks/lookup?op=get&search=0x14AA40EC0831756756D7F66C4F4EA0AAE5267A6C" \
+        | gpg --dearmor -o /etc/apt/trusted.gpg.d/ondrej-php.gpg && \
+    echo "deb https://ppa.launchpadcontent.net/ondrej/php/ubuntu noble main" \
+        > /etc/apt/sources.list.d/ondrej-php.list
+
+# Enable deb-src in every configured repository so that apt-get source works
+# regardless of whether the PHP source package lives in the Ubuntu archive or
+# the ondrej PPA.
+#
+# DEB822 format (*.sources):  append " deb-src" to any "Types: deb" line that
+#                              doesn't already include it.
+# Legacy format (sources.list): uncomment existing deb-src lines.
+RUN for f in /etc/apt/sources.list.d/*.sources /etc/apt/sources.list; do \
+        [ -f "$f" ] || continue; \
+        sed -i '/^Types:.*deb/{/deb-src/! s/$/ deb-src/}' "$f"; \
+        sed -i 's/^# deb-src/deb-src/' "$f"; \
+    done && \
+    echo "deb-src https://ppa.launchpadcontent.net/ondrej/php/ubuntu noble main" \
+        >> /etc/apt/sources.list.d/ondrej-php.list && \
+    apt-get update
+
+# Install build dependencies (common layer, cached across PHP version variants)
+RUN apt-get install -y --no-install-recommends \
+        gcc make autoconf git \
+        dpkg-dev fakeroot lintian \
+        libssl-dev libicu-dev && \
+    rm -rf /var/lib/apt/lists/*
+
+# Install PHP-version-specific dev package.
+# Intentionally no "rm -rf /var/lib/apt/lists/*" here: the source package
+# indices (written by apt-get update when deb-src is enabled) must stay in
+# the image so that "apt-get source" works when the container runs.
+RUN apt-get update && \
+    apt-get install -y --no-install-recommends \
+        php${PHP_VER}-dev \
+        php${PHP_VER}-common
+
+WORKDIR /build
+
+COPY . .
+
+CMD ["bash", "build.sh"]

@@ -1,0 +1,12 @@
+Package: php<ver>-sqlcipher
+Version: <php-version>
+Architecture: amd64
+Maintainer: Mach7Seven
+Installed-Size: 350
+Depends: libc6 (>= 2.35), libssl3 (>= 3.0.0), libicu74 (>= 74.0), phpapi-<api>, php<ver>-common (= <php-version>)
+Section: php
+Priority: optional
+Homepage: https://github.com/abbat/pdo_sqlcipher
+Description: sqlcipher module for PHP <ver>
+ SQLCipher is an SQLite extension that provides transparent
+ 256-bit AES encryption of database files.

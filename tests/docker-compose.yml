@@ -1,0 +1,12 @@
+services:
+  pdo-dev:
+    build:
+      context: ..
+      dockerfile: tests/Dockerfile.dev
+      args:
+        CACHEBUST: "1"
+    ports:
+      - "10000:80"
+    volumes:
+      - ./www:/var/www/html
+    restart: unless-stopped

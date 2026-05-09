@@ -1,0 +1,12 @@
+# =============================================================================
+#  pdo_sqlcipher — .gitignore
+# =============================================================================
+
+release/
+tests/compiled_tests/
+tests/docker-logs/
+tests/Dockerfile.dev.generated
+tests/docker-compose.override.yml
+package/DEBIAN/md5sums
+package/usr/
+package/etc/
