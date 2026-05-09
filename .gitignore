@@ -3,6 +3,7 @@
 # =============================================================================
 
 release/
+rls/
 tests/compiled_tests/
 tests/docker-logs/
 tests/Dockerfile.dev.generated
