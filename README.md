@@ -4,11 +4,16 @@ A [PDO](http://php.net/manual/en/book.pdo.php) driver for [SQLCipher](http://sql
 
 ## Build scripts
 
-`build.sh` is the only tool needed. It downloads the PHP source automatically
-via `apt-get source`, clones SQLCipher from GitHub, and produces either a `.so`
-module or a `.deb` package depending on what you select.
+| Script | Target |
+|---|---|
+| `build_debian.sh` | Debian / Ubuntu |
+| `build_arch.sh` | Arch Linux |
+
+Both scripts clone SQLCipher from GitHub, download the PHP source automatically, and produce a `.so` module. `build_debian.sh` additionally offers a `.deb` package output.
 
 ## Requirements
+
+### Debian / Ubuntu
 
 ```bash
 sudo apt install build-essential git libssl-dev libicu-dev
@@ -28,9 +33,18 @@ sudo apt install php-dev
 ```
 
 Source packages must be enabled so that `apt-get source` can fetch the PHP
-source. If they are not, `build.sh` will detect this and print the exact
+source. If they are not, `build_debian.sh` will detect this and print the exact
 command to enable them (the format differs between Ubuntu 24.04+ DEB822
 `.sources` files and the legacy `sources.list` format).
+
+### Arch Linux
+
+```bash
+sudo pacman -S base-devel git openssl icu php autoconf
+```
+
+For older PHP versions not in the official repos, install from the AUR
+(e.g. `yay -S php74`, `yay -S php83`).
 
 ## Supported PHP versions
 
@@ -46,8 +60,10 @@ command to enable them (the format differs between Ubuntu 24.04+ DEB822
 
 ## Building
 
+### Debian / Ubuntu
+
 ```bash
-./build.sh
+./build_debian.sh
 ```
 
 The interactive menu guides you through two selections:
@@ -55,18 +71,25 @@ The interactive menu guides you through two selections:
 1. **Output type** — `.so` module only, or `.so` + `.deb` package
 2. **PHP version** — autodetect installed versions or pick from the full list
 
+### Arch Linux
+
+```bash
+./build_arch.sh
+```
+
+The interactive menu asks for the PHP version — autodetect installed versions
+or pick from the full list. Output is always a `.so` module.
+
 If multiple PHP versions are installed, autodetect will list them and ask
 which one to build for.
 
-All output is written to `release/phpX.Y/` — both the `.so` and the `.deb`
-(when selected).
+All output is written to `release/phpX.Y/`.
 
 ## Installation
 
 Replace `X.Y` with the PHP version you built for (e.g. `8.3`, `8.4`, `8.5`).
-The build summary printed at the end of `build.sh` shows the exact paths.
 
-### Manual (.so)
+### Manual (.so) — all distros
 
 ```bash
 sudo cp release/phpX.Y/pdo_sqlcipher.so $(php-configX.Y --extension-dir)/
@@ -78,7 +101,13 @@ Add to `php.ini` or a drop-in file:
 extension=pdo_sqlcipher.so
 ```
 
-### Via .deb package
+On Arch Linux, drop-in files live in `/etc/php/conf.d/`:
+
+```bash
+echo 'extension=pdo_sqlcipher.so' | sudo tee /etc/php/conf.d/pdo_sqlcipher.ini
+```
+
+### Via .deb package (Debian / Ubuntu only)
 
 ```bash
 sudo dpkg -i release/phpX.Y/phpX.Y-sqlcipher.deb
