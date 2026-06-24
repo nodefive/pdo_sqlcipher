@@ -99,6 +99,12 @@ Automated build script to compile the `php_pdo_sqlcipher` PHP extension for Wind
 | 8.0 – 8.3 | VS16 (Visual Studio 2019) | VS17 (Visual Studio 2022) accepted |
 | 8.4 – 8.5 | VS17 (Visual Studio 2022) | — |
 
+## Download Per-Compiled
+
+You can download the pre-compiled versions of `pdo_sqlcipher` from the official releases page:
+
+[Download Compiled pdo_sqlcipher Versions](https://github.com/nodefive/pdo_sqlcipher/releases)
+
 ## License
 
 This build script is provided as-is under the [MIT License](LICENSE).  
