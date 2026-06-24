@@ -136,21 +136,6 @@ $pdo = new PDO('sqlcipher:dbname=encrypted.db', null, null, [
 $pdo->exec("PRAGMA key = 'your-secret-passphrase';");
 ```
 
----
-
-## Downloads
-
-Pre-built DLLs for **Windows x64 NTS**. Each archive contains `php_pdo_sqlcipher.dll` and the required OpenSSL runtime DLLs.
-
-| PHP Version | Compiler | Download |
-|---|---|---|
-| PHP 8.0 | VS16 | [php_pdo_sqlcipher-php8.0-nts-x64.zip](https://github.com/your-org/php-pdo-sqlcipher-windows/releases/download/v1.0.0/php_pdo_sqlcipher-php8.0-nts-x64.zip) |
-| PHP 8.1 | VS16 | [php_pdo_sqlcipher-php8.1-nts-x64.zip](https://github.com/your-org/php-pdo-sqlcipher-windows/releases/download/v1.0.0/php_pdo_sqlcipher-php8.1-nts-x64.zip) |
-| PHP 8.2 | VS16 | [php_pdo_sqlcipher-php8.2-nts-x64.zip](https://github.com/your-org/php-pdo-sqlcipher-windows/releases/download/v1.0.0/php_pdo_sqlcipher-php8.2-nts-x64.zip) |
-| PHP 8.3 | VS16 | [php_pdo_sqlcipher-php8.3-nts-x64.zip](https://github.com/your-org/php-pdo-sqlcipher-windows/releases/download/v1.0.0/php_pdo_sqlcipher-php8.3-nts-x64.zip) |
-| PHP 8.4 | VS17 | [php_pdo_sqlcipher-php8.4-nts-x64.zip](https://github.com/your-org/php-pdo-sqlcipher-windows/releases/download/v1.0.0/php_pdo_sqlcipher-php8.4-nts-x64.zip) |
-| PHP 8.5 | VS17 | [php_pdo_sqlcipher-php8.5-nts-x64.zip](https://github.com/your-org/php-pdo-sqlcipher-windows/releases/download/v1.0.0/php_pdo_sqlcipher-php8.5-nts-x64.zip) |
-
 > **Note:** Replace `your-org` with your actual GitHub username/organization before publishing.
 
 ---
