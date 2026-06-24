@@ -1,10 +1,6 @@
-# php_pdo_sqlcipher — Windows Build Script
+# Windows Build Script
 
-Automated build script that compiles the `php_pdo_sqlcipher` PHP extension for Windows (x64 NTS), targeting PHP versions **8.0 through 8.5**.
-
-The extension is a drop-in PDO driver for [SQLCipher](https://github.com/sqlcipher/sqlcipher) — an encrypted SQLite variant. It is built from the PHP `pdo_sqlite` extension source with all symbols and files renamed to `pdo_sqlcipher`, bundled together with the SQLCipher amalgamation (`sqlite3.c`) generated inside WSL.
-
----
+Automated build script to compile the `php_pdo_sqlcipher` PHP extension for Windows (x64 NTS), targeting PHP versions **8.0 through 8.5**.
 
 ## Requirements
 
@@ -19,8 +15,6 @@ The extension is a drop-in PDO driver for [SQLCipher](https://github.com/sqlciph
 | **Visual Studio 2019 Build Tools** *(PHP 8.0–8.3)* | VS16 — `Desktop development with C++` workload; VS17 is accepted as a fallback |
 
 > **Tip:** Run `.\win_build.ps1 -k` to automatically check and install missing dependencies via `winget`.
-
----
 
 ## Usage
 
@@ -50,8 +44,6 @@ The extension is a drop-in PDO driver for [SQLCipher](https://github.com/sqlciph
 .\win_build.ps1 -c -b 8.3
 ```
 
----
-
 ## How It Works
 
 1. **Dependency check** (`-k` / auto-triggered by `-b`)  
@@ -80,11 +72,8 @@ The extension is a drop-in PDO driver for [SQLCipher](https://github.com/sqlciph
    Runs `buildconf`, `configure`, `nmake`, and `nmake install` inside the PHP SDK shell (`phpsdk-vs1X-x64.bat`), producing a minimal PHP NTS x64 installation with `pdo_sqlcipher` as a shared extension.
 
 8. **Output**  
-   - Extension DLL: `.\php<version>\ext\php_pdo_sqlcipher.dll`  
    - Release copy: `.\release\php<version>\php_pdo_sqlcipher.dll`  
    - OpenSSL DLLs (`libcrypto-*-x64.dll`, `libssl-*-x64.dll`) copied next to `php.exe`
-
----
 
 ## Output Structure
 
@@ -95,8 +84,6 @@ The extension is a drop-in PDO driver for [SQLCipher](https://github.com/sqlciph
 ├── php80/                 ← Full PHP 8.0 install (example)
 │   ├── php.exe
 │   ├── libcrypto-*.dll
-│   └── ext/
-│       └── php_pdo_sqlcipher.dll
 └── release/
     ├── php8.0/
     │   └── php_pdo_sqlcipher.dll
@@ -105,7 +92,6 @@ The extension is a drop-in PDO driver for [SQLCipher](https://github.com/sqlciph
     └── ...
 ```
 
----
 
 ## Installation
 
@@ -122,32 +108,12 @@ After building (or downloading a pre-built DLL below):
    php -m | findstr pdo_sqlcipher
    ```
 
----
-
-## Enabling Encryption
-
-Use the `key` attribute in your PDO DSN to open or create an encrypted database:
-
-```php
-$pdo = new PDO('sqlcipher:dbname=encrypted.db', null, null, [
-    PDO::ATTR_DRIVER_NAME => 'sqlcipher',
-    // SQLCipher key passed via PRAGMA after connect
-]);
-$pdo->exec("PRAGMA key = 'your-secret-passphrase';");
-```
-
-> **Note:** Replace `your-org` with your actual GitHub username/organization before publishing.
-
----
-
 ## Compiler Compatibility
 
 | PHP Version | Required Compiler | Fallback |
 |---|---|---|
 | 8.0 – 8.3 | VS16 (Visual Studio 2019) | VS17 (Visual Studio 2022) accepted |
 | 8.4 – 8.5 | VS17 (Visual Studio 2022) | — |
-
----
 
 ## License
 
