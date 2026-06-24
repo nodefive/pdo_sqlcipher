@@ -92,22 +92,6 @@ Automated build script to compile the `php_pdo_sqlcipher` PHP extension for Wind
     └── ...
 ```
 
-
-## Installation
-
-After building (or downloading a pre-built DLL below):
-
-1. Copy `php_pdo_sqlcipher.dll` to your PHP `ext/` directory.
-2. Copy the matching `libcrypto-*-x64.dll` next to `php.exe` (or somewhere on `PATH`).
-3. Add to `php.ini`:
-   ```ini
-   extension=pdo_sqlcipher
-   ```
-4. Verify:
-   ```powershell
-   php -m | findstr pdo_sqlcipher
-   ```
-
 ## Compiler Compatibility
 
 | PHP Version | Required Compiler | Fallback |
