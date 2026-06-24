@@ -122,6 +122,13 @@ sudo phpenmod pdo_sqlcipher
 ```bash
 php -m | grep -i sqlcipher
 ```
+
+## Download Per-Compiled
+
+You can download the pre-compiled versions of `pdo_sqlcipher` from the official releases page:
+
+[Download Compiled pdo_sqlcipher Versions](https://github.com/nodefive/pdo_sqlcipher/releases)
+
 ## License
 
 MIT License — Copyright (c) 2025 nodefive
